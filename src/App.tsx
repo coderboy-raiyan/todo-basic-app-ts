@@ -1,11 +1,14 @@
 import React from "react";
+import Header from "./Pages/Header";
+import Home from "./Pages/Home";
 import "./tailwind.css";
 
 const App = () => {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </div>
+    <main>
+      <Header />
+      <Home />
+    </main>
   );
 };
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { BiUserCircle } from "react-icons/bi";
 
 const Header = () => {
   return (
@@ -18,8 +19,8 @@ const Header = () => {
             <li className="text-gray-600 hover:text-blue-500 cursor-pointer">
               Workshop
             </li>
-            <li className="text-gray-600 hover:text-blue-500 cursor-pointer">
-              Login
+            <li className="text-gray-600 hover:text-blue-500 text-2xl cursor-pointer">
+              <BiUserCircle />
             </li>
           </ul>
         </nav>

@@ -4,6 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .edit_btn {
+    @apply bg-green-500 text-white py-2 rounded font-semibold hover:bg-white hover:text-green-500 transition-all hover:border-green-500 border-2 border-transparent w-full;
+  }
+  .delete_btn {
+    @apply bg-red-500 text-white py-2 rounded font-semibold hover:bg-white hover:text-red-500 transition-all hover:border-red-500 border-2 border-transparent  w-full;
+  }
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }

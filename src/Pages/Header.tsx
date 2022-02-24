@@ -4,7 +4,7 @@ import { BiUserCircle } from "react-icons/bi";
 const Header = () => {
   return (
     <header className="bg-white shadow">
-      <div className="max-w-6xl mx-auto">
+      <div className="lg:max-w-6xl max-w-3xl md:mx-w-6xl lg:mx-auto md:mx-auto px-4">
         <nav className="flex justify-between py-2">
           {/* logo */}
 

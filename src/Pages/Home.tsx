@@ -168,14 +168,20 @@ const Home = () => {
             Tasks
           </h1>
           <div className="h-[500px] overflow-y-scroll scrollbar-hide text-sm lg:mx-8 md:mx-4 space-y-5">
-            {todos.map((todo) => (
-              <Todo
-                key={todo.id}
-                todo={todo}
-                handelDelete={handelDelete}
-                handelEdit={handelEdit}
-              />
-            ))}
+            {todos.length === 0 ? (
+              <h1 className="text-center text-lg my-10 text-gray-500">
+                Please add a task... 😭😭
+              </h1>
+            ) : (
+              todos.map((todo) => (
+                <Todo
+                  key={todo.id}
+                  todo={todo}
+                  handelDelete={handelDelete}
+                  handelEdit={handelEdit}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>

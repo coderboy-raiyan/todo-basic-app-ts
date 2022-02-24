@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import Footer from "./Footer";
 import Todo from "./SingalTodo";
 
 interface formData {
@@ -95,97 +96,102 @@ const Home = () => {
   };
 
   return (
-    <section className="lg:max-w-6xl lg:mx-auto ">
-      <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cold-1 px-4 mt-10">
-        {switchEdit ? (
-          <form
-            className="flex flex-col  w-full space-y-5 "
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <h1 className="text-center font-semibold text-3xl text-green-500">
-              📜📜 Edit Todo 📜📜
-            </h1>
-            <input
-              required
-              className="outline-none border-2 border-gray-400 bg-white shadow focus:shadow-lg transition-all focus:ring-0 py-4 rounded-lg"
-              type="text"
-              defaultValue={editData.title}
-              ref={titleRef}
-              placeholder="Write a title..."
-            />
-            <textarea
-              required
-              className="outline-none border-2 border-gray-400 bg-white shadow focus:shadow-lg transition-all  focus:ring-0 py-4 rounded-lg lg:h-[200px] resize-none md:h-[200px] h-full w-full"
-              defaultValue={editData.des}
-              ref={desRef}
-              placeholder="Start writing..."
-            ></textarea>
-            <div className="flex space-x-4">
-              <button className="edit_btn">Update todo</button>
-              <button
-                onClick={() => {
-                  setSwitchEdit(false);
-                  setEditData({} as formData);
-                  reset();
-                }}
-                className="delete_btn"
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        ) : (
-          <form
-            className="flex flex-col  w-full space-y-5 "
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <h1 className="text-center font-semibold text-3xl text-green-500">
-              📜📜 Write Todo 📜📜
-            </h1>
-            <input
-              required
-              className="outline-none border-2 border-gray-400 bg-white shadow focus:shadow-lg transition-all focus:ring-0 py-4 rounded-lg"
-              type="text"
-              defaultValue=""
-              placeholder="Write a title..."
-              {...register("title")}
-            />
-            <textarea
-              required
-              className="outline-none border-2 border-gray-400 bg-white shadow focus:shadow-lg transition-all  focus:ring-0 py-4 rounded-lg lg:h-[200px] resize-none md:h-[200px] h-full w-full"
-              placeholder="Start writing..."
-              defaultValue=""
-              {...register("des")}
-            ></textarea>
-            <button className="bg-green-500 text-white py-2 rounded font-semibold hover:bg-white hover:text-green-500 transition-all hover:border-green-500 border-2 border-transparent">
-              Add todo
-            </button>
-          </form>
-        )}
-        {/* Show todos in the UI */}
-        <div className=" my-20 lg:mt-0 md:mt-0">
-          <h1 className="text-center text-green-500 text-2xl font-semibold">
-            Tasks
-          </h1>
-          <div className="h-[500px] overflow-y-scroll scrollbar-hide text-sm lg:mx-8 md:mx-4 space-y-5">
-            {todos.length === 0 ? (
-              <h1 className="text-center text-lg my-10 text-gray-500">
-                Please add a task... 😭😭
+    <>
+      <section className="lg:max-w-6xl lg:mx-auto ">
+        <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cold-1 px-4 mt-10">
+          {switchEdit ? (
+            <form
+              className="flex flex-col  w-full space-y-5 "
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <h1 className="text-center font-semibold text-3xl text-green-500">
+                📜📜 Edit Todo 📜📜
               </h1>
-            ) : (
-              todos.map((todo) => (
-                <Todo
-                  key={todo.id}
-                  todo={todo}
-                  handelDelete={handelDelete}
-                  handelEdit={handelEdit}
-                />
-              ))
-            )}
+              <input
+                required
+                className="outline-none border-2 border-gray-400 bg-white shadow focus:shadow-lg transition-all focus:ring-0 py-4 rounded-lg"
+                type="text"
+                defaultValue={editData.title}
+                ref={titleRef}
+                placeholder="Write a title..."
+              />
+              <textarea
+                required
+                className="outline-none border-2 border-gray-400 bg-white shadow focus:shadow-lg transition-all  focus:ring-0 py-4 rounded-lg lg:h-[200px] resize-none md:h-[200px] h-full w-full"
+                defaultValue={editData.des}
+                ref={desRef}
+                placeholder="Start writing..."
+              ></textarea>
+              <div className="flex space-x-4">
+                <button className="edit_btn">Update todo</button>
+                <button
+                  onClick={() => {
+                    setSwitchEdit(false);
+                    setEditData({} as formData);
+                    reset();
+                  }}
+                  className="delete_btn"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : (
+            <form
+              className="flex flex-col  w-full space-y-5 "
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <h1 className="text-center font-semibold text-3xl text-green-500">
+                📜📜 Write Todo 📜📜
+              </h1>
+              <input
+                required
+                className="outline-none border-2 border-gray-400 bg-white shadow focus:shadow-lg transition-all focus:ring-0 py-4 rounded-lg"
+                type="text"
+                defaultValue=""
+                placeholder="Write a title..."
+                {...register("title")}
+              />
+              <textarea
+                required
+                className="outline-none border-2 border-gray-400 bg-white shadow focus:shadow-lg transition-all  focus:ring-0 py-4 rounded-lg lg:h-[200px] resize-none md:h-[200px] h-full w-full"
+                placeholder="Start writing..."
+                defaultValue=""
+                {...register("des")}
+              ></textarea>
+              <button className="bg-green-500 text-white py-2 rounded font-semibold hover:bg-white hover:text-green-500 transition-all hover:border-green-500 border-2 border-transparent">
+                Add todo
+              </button>
+            </form>
+          )}
+          {/* Show todos in the UI */}
+          <div className=" my-20 lg:mt-0 md:mt-0">
+            <h1 className="text-center text-green-500 text-2xl font-semibold">
+              Tasks
+            </h1>
+            <div className="h-[500px] overflow-y-scroll scrollbar-hide text-sm lg:mx-8 md:mx-4 space-y-5">
+              {todos.length === 0 ? (
+                <h1 className="text-center text-lg my-10 text-gray-500">
+                  Please add a task... 😭😭
+                </h1>
+              ) : (
+                todos.map((todo) => (
+                  <Todo
+                    key={todo.id}
+                    todo={todo}
+                    handelDelete={handelDelete}
+                    handelEdit={handelEdit}
+                  />
+                ))
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <footer>
+        <Footer />
+      </footer>
+    </>
   );
 };
 

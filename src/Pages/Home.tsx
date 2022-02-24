@@ -31,6 +31,8 @@ const Home = () => {
 
   // save the todo in the local storage
   const onSubmit = (data: formData) => {
+    const generateRandom = myRandomColors[Math.floor(Math.random() * 5)];
+
     if (switchEdit) {
       // edit functionality
       const allTodos = todos.filter(({ id }) => id !== editData.id);
@@ -48,7 +50,7 @@ const Home = () => {
       setSwitchEdit(false);
     } else {
       // post todo functionality
-      data.bg = myRandomColors[Math.floor(Math.random() * 5)];
+      data.bg = generateRandom;
       data.id = nanoid(10);
       data.date = new Date().toISOString();
       const newData = [...todos, data].reverse();
@@ -58,8 +60,6 @@ const Home = () => {
     }
     reset();
   };
-
-  console.log(editData);
 
   // set the todos to local storage
   useEffect(() => {

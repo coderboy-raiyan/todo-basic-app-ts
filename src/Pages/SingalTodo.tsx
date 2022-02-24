@@ -19,7 +19,7 @@ const Todo = ({ todo, handelDelete, handelEdit }: data) => {
   return (
     <div
       className=" p-3 rounded-lg hover:shadow shadow-gray-200 shadow-lg duration-700 transition-all mt-7"
-      style={{ backgroundColor: `${todo.bg}` }}
+      style={{ backgroundColor: `${todo.bg || "#894AEC"}` }}
     >
       <div className="flex items-center justify-between">
         <h2 className="font-semibold text-xl text-white">{todo.title}</h2>

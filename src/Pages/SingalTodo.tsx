@@ -9,13 +9,13 @@ interface data {
     des: string;
     date: string;
     bg: string;
+    isEverUpdated?: boolean;
   };
   handelDelete: (id: string) => void;
+  handelEdit: (id: string) => void;
 }
 
-const Todo = ({ todo, handelDelete }: data) => {
-  console.log(todo);
-
+const Todo = ({ todo, handelDelete, handelEdit }: data) => {
   return (
     <div
       className=" p-3 rounded-lg hover:shadow shadow-gray-200 shadow-lg duration-700 transition-all mt-7"
@@ -31,7 +31,10 @@ const Todo = ({ todo, handelDelete }: data) => {
           >
             <TiDelete />
           </button>
-          <button className="text-white hover:scale-110 transition-all">
+          <button
+            onClick={() => handelEdit(todo.id)}
+            className="text-white hover:scale-110 transition-all"
+          >
             <TiEdit />
           </button>
         </div>
@@ -40,10 +43,10 @@ const Todo = ({ todo, handelDelete }: data) => {
       <textarea
         disabled
         className="outline-none text-sm h-[100px] scrollbar-hide bg-transparent resize-none border-none w-full p-0 my-3 text-white"
-        defaultValue={todo.des}
+        value={todo.des}
       ></textarea>
       <p className="text-right text-xs text-gray-100 font-semibold my-2">
-        <Moment fromNow>{todo.date}</Moment>
+        {todo.isEverUpdated && "Updated"} <Moment fromNow>{todo.date}</Moment>
       </p>
     </div>
   );

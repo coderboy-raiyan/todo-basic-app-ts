@@ -1,6 +1,6 @@
 import cogoToast from "cogo-toast";
 import { nanoid } from "nanoid";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import Todo from "./SingalTodo";
@@ -11,12 +11,15 @@ interface formData {
   des: string;
   date: string;
   bg: string;
+  isEverUpdated?: boolean;
 }
 
 const Home = () => {
   const { register, handleSubmit, reset } = useForm<formData>();
   const [switchEdit, setSwitchEdit] = useState<boolean>(false);
   const [editData, setEditData] = useState<formData>({} as formData);
+  const titleRef = useRef<HTMLInputElement | null>(null);
+  const desRef = useRef<HTMLTextAreaElement | null>(null);
   // todo states
   const [todos, setTodos] = useState<formData[]>(
     JSON.parse(localStorage.getItem("todos")!) || []
@@ -27,15 +30,35 @@ const Home = () => {
 
   // save the todo in the local storage
   const onSubmit = (data: formData) => {
-    data.bg = myRandomColors[Math.floor(Math.random() * 5)];
-    data.id = nanoid(10);
-    data.date = new Date().toISOString();
-    const newData = [...todos, data].reverse();
-    setTodos(newData);
-    cogoToast.success("YAY!!🥳🎉 You added a todo");
+    if (switchEdit) {
+      // edit functionality
+      const allTodos = todos.filter(({ id }) => id !== editData.id);
+      if (titleRef.current) {
+        editData.title = titleRef.current.value;
+      }
+      if (desRef.current) {
+        editData.des = desRef.current.value;
+      }
+      editData.isEverUpdated = true;
+      editData.date = new Date().toISOString();
 
+      const updateDone = [...allTodos, editData].reverse();
+      setTodos(updateDone);
+      setSwitchEdit(false);
+    } else {
+      // post todo functionality
+      data.bg = myRandomColors[Math.floor(Math.random() * 5)];
+      data.id = nanoid(10);
+      data.date = new Date().toISOString();
+      const newData = [...todos, data].reverse();
+      setTodos(newData);
+      cogoToast.success("YAY!!🥳🎉 You added a todo");
+      reset();
+    }
     reset();
   };
+
+  console.log(editData);
 
   // set the todos to local storage
   useEffect(() => {
@@ -62,6 +85,15 @@ const Home = () => {
     });
   };
 
+  // edit the todo
+  const handelEdit = (selectedId: string): void => {
+    if (selectedId) {
+      setSwitchEdit(true);
+      const todo = todos.find(({ id }) => id === selectedId);
+      setEditData(todo!);
+    }
+  };
+
   return (
     <section className="lg:max-w-6xl lg:mx-auto ">
       <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cold-1 px-4 mt-10">
@@ -77,16 +109,16 @@ const Home = () => {
               required
               className="outline-none border-2 border-gray-400 bg-white shadow focus:shadow-lg transition-all focus:ring-0 py-4 rounded-lg"
               type="text"
-              defaultValue={editData?.title}
+              defaultValue={editData.title}
+              ref={titleRef}
               placeholder="Write a title..."
-              {...register("title")}
             />
             <textarea
               required
               className="outline-none border-2 border-gray-400 bg-white shadow focus:shadow-lg transition-all  focus:ring-0 py-4 rounded-lg lg:h-[200px] resize-none md:h-[200px] h-full w-full"
-              defaultValue={editData?.des}
+              defaultValue={editData.des}
+              ref={desRef}
               placeholder="Start writing..."
-              {...register("des")}
             ></textarea>
             <div className="flex space-x-4">
               <button className="edit_btn">Update todo</button>
@@ -94,6 +126,7 @@ const Home = () => {
                 onClick={() => {
                   setSwitchEdit(false);
                   setEditData({} as formData);
+                  reset();
                 }}
                 className="delete_btn"
               >
@@ -136,7 +169,12 @@ const Home = () => {
           </h1>
           <div className="h-[500px] overflow-y-scroll scrollbar-hide text-sm lg:mx-8 md:mx-4 space-y-5">
             {todos.map((todo) => (
-              <Todo key={todo.id} todo={todo} handelDelete={handelDelete} />
+              <Todo
+                key={todo.id}
+                todo={todo}
+                handelDelete={handelDelete}
+                handelEdit={handelEdit}
+              />
             ))}
           </div>
         </div>
